@@ -5,6 +5,7 @@ Created on 8 mar. 2018
 '''
 
 import time
+import random
 from multiprocessing import Process
 from termcolor import colored
 
@@ -24,9 +25,17 @@ class Satelite(object):
         # Creamos la piscina (Pool)
         piscina = []
 
-        for task in tasks:
-            print colored("SATELITE {0} - Inicia tarea {1} (Duracion {2} segundos)".format(self.__id, task.name, task.payload), 'green')
-            piscina.append(Process(name="Tarea {0}".format(task.name), target=task.do, args=(self.__id,)))
+        # Tareas que no se pudieron realizar
+        incompleted_tasks = []    
+
+        for task in tasks:  
+            # Generamos un tiempo de espera aleatorio
+            if random.random() > 0.1:
+                print colored("SATELITE {0} - Inicia tarea {1} (Duracion {2} segundos)".format(self.__id, task.name, task.payload), 'green')
+                piscina.append(Process(name="Tarea {0}".format(task.name), target=task.do, args=(self.__id,)))
+            else:
+                print colored("SATELITE {0} - NO PUDO iniciar tarea {1} (Duracion {2} segundos)".format(self.__id, task.name, task.payload), 'red')
+                incompleted_tasks.append(task)
  
         # Arrancamos a todas las tareas
         print("SATELITE {0} : arrancando tareas".format(self.__id))
@@ -50,3 +59,10 @@ class Satelite(object):
             time.sleep(1)
          
         print("SATELITE {0} : todas laos tareas han terminado, cierro".format(self.__id))
+        
+        # envio las tareas que no pudieron completarse
+        conn.send(incompleted_tasks)
+        
+        
+        
+        
