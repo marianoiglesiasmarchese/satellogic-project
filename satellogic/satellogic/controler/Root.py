@@ -4,14 +4,12 @@ Created on 8 mar. 2018
 @author: miglesias
 '''
 
-from flask import Flask
-from src.service.TaskScheduler import initialice_satelites, kernel, distribute_tasks
-from src.model.Task import Task
-
-app = Flask(__name__)
+from satellogic import app
+from satellogic.service.TaskScheduler import initialice_satelites, kernel, distribute_tasks
+from satellogic.model.Task import Task
 
 @app.route("/run")
-def hello():
+def run():
     
     # Creamos la lista de tareas
     tasks = []
@@ -46,12 +44,5 @@ def hello():
     
     return "Successful run!"   
     
-    
-    
-    
-    
-    
-if __name__ == "__main__":
-  
-    app.run(use_reloader=False)    
+ 
     

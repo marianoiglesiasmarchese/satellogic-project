@@ -1,7 +1,7 @@
 import time
 from multiprocessing import Process, Pipe
-from src.model.Task import Task
-from src.model.Satelite import Satelite
+from satellogic.model.Task import Task
+from satellogic.model.Satelite import Satelite
 from termcolor import colored
  
 '''
